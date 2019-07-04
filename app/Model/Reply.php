@@ -6,5 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reply extends Model
 {
-    //
+    function question()
+    {
+        return $this->belongsTo(Question::class);
+    }
+
+    function user()
+    {
+        $this->belongsTo(User::class);
+    }
+
+    function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
 }
