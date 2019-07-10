@@ -2,6 +2,9 @@
 
 namespace App\Model;
 
+use App\User;
+use App\Model\Like;
+use App\Model\Question;
 use Illuminate\Database\Eloquent\Model;
 
 class Reply extends Model
@@ -15,7 +18,7 @@ class Reply extends Model
 
     function user()
     {
-        $this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
     }
 
     function likes()

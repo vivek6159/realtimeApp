@@ -6,6 +6,8 @@ use App\Model\Reply;
 use App\Model\Question;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Http\Resources\ReplyResource;
+
 
 class ReplyController extends Controller
 {
@@ -16,8 +18,9 @@ class ReplyController extends Controller
      */
     public function index(Question $question)
     {
-        return $question->replies;
-        //return Reply::latest()->get();
+
+        return ReplyResource::collection($question->replies);
+        // return $question->replies;
     }
 
 
@@ -31,7 +34,7 @@ class ReplyController extends Controller
     public function store(Question $question, Request $request)
     {
         $reply = $question->replies()->create($request->all());
-        return $reply;
+        return new ReplyResource($reply);
     }
 
     /**
@@ -42,7 +45,7 @@ class ReplyController extends Controller
      */
     public function show(Question $question, Reply $reply)
     {
-        return $reply;
+        return new ReplyResource($reply);
     }
 
 
@@ -54,9 +57,10 @@ class ReplyController extends Controller
      * @param  \App\Model\Reply  $reply
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Reply $reply)
+    public function update(Question $question, Request $request, Reply $reply)
     {
-        //
+        $reply->update($request->all());
+        return response('updated', Response::HTTP_ACCEPTED);
     }
 
     /**
