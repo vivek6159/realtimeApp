@@ -1,13 +1,18 @@
 <template>
     <div>
-        <toolbar></toolbar>
+        <app-toolbar></app-toolbar>
+        <app-footer></app-footer>
     </div>
 </template>
 
 <script>
-import toolbar from "./Toolbar";
+import AppToolbar from "./AppToolbar";
+import AppFooter from "./AppFooter";
 export default {
-    components: { toolbar }
+    components: {
+        AppToolbar,
+        AppFooter
+    }
 };
 </script>
 
