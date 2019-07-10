@@ -46,6 +46,13 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof TokenInvalidException) {
+            return response()->json(["error" => "token is invalid"], 400);
+        } else if ($exception instanceof TokenExpiredException) {
+            return response()->json(["error" => "token is expired"], 400);
+        } else if ($exception instanceof JWTException) {
+            return response()->json(["error" => "there is problem with your token"], 400);
+        }
         return parent::render($request, $exception);
     }
 }
