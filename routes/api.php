@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -23,5 +24,5 @@ Route::apiResources([
     'questions/{question}/replies' => 'ReplyController'
 ]);
 
-// Route::apiResource('questions', 'QuestionController');
-// Route::apiResource('categories', 'CategoryController');
+Route::post('{reply}/like', 'LikeController@likeIt');
+Route::delete('{reply}/like', 'LikeController@unlikeIt');
