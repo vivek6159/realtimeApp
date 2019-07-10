@@ -46,7 +46,9 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($exception instanceof TokenInvalidException) {
+        if ($exception instanceof TokenBlacklistedException) {
+            return response()->json(["error" => "token can not be used, get new one"], 400);
+        } else if ($exception instanceof TokenInvalidException) {
             return response()->json(["error" => "token is invalid"], 400);
         } else if ($exception instanceof TokenExpiredException) {
             return response()->json(["error" => "token is expired"], 400);
