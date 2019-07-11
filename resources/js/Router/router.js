@@ -3,10 +3,15 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 import AppLogin from '../components/Login/AppLogin.vue'
+import AppSignup from '../components/Login/AppSignup.vue'
 const routes = [
     {
         path: '/login',
         component: AppLogin
+    },
+    {
+        path: '/signup',
+        component: AppSignup
     }
 ]
 
