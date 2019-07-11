@@ -78387,6 +78387,42 @@ function () {
         _AppStorage__WEBPACK_IMPORTED_MODULE_1__["default"].store(username, access_token);
       }
     }
+  }, {
+    key: "hasToken",
+    value: function hasToken() {
+      var storedToken = _AppStorage__WEBPACK_IMPORTED_MODULE_1__["default"].getToken();
+
+      if (storedToken) {
+        return _Token__WEBPACK_IMPORTED_MODULE_0__["default"].isValid(storedToken) ? true : false;
+      }
+
+      return false;
+    }
+  }, {
+    key: "loggedIn",
+    value: function loggedIn() {
+      return this.hasToken();
+    }
+  }, {
+    key: "logout",
+    value: function logout() {
+      _AppStorage__WEBPACK_IMPORTED_MODULE_1__["default"].clear();
+    }
+  }, {
+    key: "name",
+    value: function name() {
+      if (this.loggedIn()) {
+        return _AppStorage__WEBPACK_IMPORTED_MODULE_1__["default"].getUser();
+      }
+    }
+  }, {
+    key: "id",
+    value: function id() {
+      if (this.loggedIn()) {
+        var payload = _Token__WEBPACK_IMPORTED_MODULE_0__["default"].payload(_AppStorage__WEBPACK_IMPORTED_MODULE_1__["default"].getToken());
+        return payload.sub;
+      }
+    }
   }]);
 
   return User;
@@ -78451,6 +78487,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 Vue.use(vuetify__WEBPACK_IMPORTED_MODULE_0___default.a);
 
 window.User = _Helpers_User__WEBPACK_IMPORTED_MODULE_1__["default"];
+console.log(_Helpers_User__WEBPACK_IMPORTED_MODULE_1__["default"].id());
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
