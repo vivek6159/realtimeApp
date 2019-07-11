@@ -1,9 +1,9 @@
 class AppStorage {
-    storeToken() {
-        return localStorage.setItem('token', token);
+    storeToken(token) {
+        return localStorage.setItem("token", token);
     }
     storeUser(user) {
-        return localStorage.setItem('user', user);
+        return localStorage.setItem("user", user);
     }
 
     store(user, token) {
@@ -12,16 +12,16 @@ class AppStorage {
     }
 
     clear() {
-        localStorage.removeItem('token')
-        localStorage.removeItem('user')
+        localStorage.removeItem("token")
+        localStorage.removeItem("user")
     }
 
     getToken() {
-        return localStorage.getItem('token')
+        return localStorage.getItem("token")
     }
 
     getUser() {
-        return localStorage.getItem('user')
+        return localStorage.getItem("user")
     }
 }
 
