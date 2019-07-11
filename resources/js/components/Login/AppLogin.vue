@@ -6,6 +6,7 @@
             <v-text-field v-model="form.password" label="Password" type="Password" required></v-text-field>
 
             <v-btn type="submit">Login</v-btn>
+            <v-btn @click="clear">clear</v-btn>
             <router-link to="/signup">
                 <v-btn flat>Sign up</v-btn>
             </router-link>
@@ -23,9 +24,19 @@ export default {
             }
         };
     },
+    created() {
+        if (User.loggedIn()) {
+            this.$router.push({ name: "forum" });
+        }
+    },
     methods: {
         login() {
             User.login(this.form);
+            //this.$router.push({ name: "forum" });
+        },
+        clear() {
+            this.form.email = null;
+            this.form.password = null;
         }
     }
 };

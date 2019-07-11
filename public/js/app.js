@@ -1904,12 +1904,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      items: [{
+        title: "Forum",
+        to: "/forum",
+        show: true
+      }, {
+        title: "Login",
+        to: "/login",
+        show: !User.loggedIn()
+      }, {
+        title: "Ask Question",
+        to: "/ask",
+        show: User.loggedIn()
+      }, {
+        title: "Category",
+        to: "/category",
+        show: User.loggedIn()
+      }, {
+        title: "Logout",
+        to: "/logout",
+        show: User.loggedIn()
+      }]
+    };
+  },
+  created: function created() {
+    EventBus.$on("logout", function () {
+      User.logout();
+    });
+  }
+});
 
 /***/ }),
 
@@ -1937,6 +1963,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1946,10 +1973,40 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
   },
+  created: function created() {
+    if (User.loggedIn()) {
+      this.$router.push({
+        name: "forum"
+      });
+    }
+  },
   methods: {
     login: function login() {
-      User.login(this.form);
+      User.login(this.form); //this.$router.push({ name: "forum" });
+    },
+    clear: function clear() {
+      this.form.email = null;
+      this.form.password = null;
     }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Login/AppLogout.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Login/AppLogout.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  created: function created() {
+    EventBus.$emit("logout");
   }
 });
 
@@ -2016,12 +2073,23 @@ __webpack_require__.r(__webpack_exports__);
       errors: {}
     };
   },
+  created: function created() {
+    if (User.loggedIn()) {
+      this.$router.push({
+        name: "forum"
+      });
+    }
+  },
   methods: {
     signup: function signup() {
       var _this = this;
 
       axios.post("/api/auth/signup", this.form).then(function (res) {
-        return User.responseAfterLogin(res);
+        User.responseAfterLogin(res);
+
+        _this.$router.push({
+          name: "forum"
+        });
       })["catch"](function (error) {
         return _this.errors = error.response.data.errors;
       });
@@ -2035,6 +2103,23 @@ __webpack_require__.r(__webpack_exports__);
     }
   }
 });
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/forum/AppForum.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/forum/AppForum.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({});
 
 /***/ }),
 
@@ -37409,25 +37494,20 @@ var render = function() {
       _c(
         "div",
         { staticClass: "hidden-sm-and-down" },
-        [
-          _c(
+        _vm._l(_vm.items, function(item) {
+          return _c(
             "router-link",
-            { attrs: { to: "/forum" } },
-            [_c("v-btn", { attrs: { flat: "" } }, [_vm._v("Forum")])],
-            1
-          ),
-          _vm._v(" "),
-          _c("v-btn", { attrs: { flat: "" } }, [_vm._v("Ask Question")]),
-          _vm._v(" "),
-          _c("v-btn", { attrs: { flat: "" } }, [_vm._v("Category")]),
-          _vm._v(" "),
-          _c(
-            "router-link",
-            { attrs: { to: "/login" } },
-            [_c("v-btn", { attrs: { flat: "" } }, [_vm._v("Login")])],
+            { key: item.title, attrs: { to: item.to } },
+            [
+              item.show
+                ? _c("v-btn", { attrs: { flat: "" } }, [
+                    _vm._v(_vm._s(item.title))
+                  ])
+                : _vm._e()
+            ],
             1
           )
-        ],
+        }),
         1
       )
     ],
@@ -37493,6 +37573,8 @@ var render = function() {
           }),
           _vm._v(" "),
           _c("v-btn", { attrs: { type: "submit" } }, [_vm._v("Login")]),
+          _vm._v(" "),
+          _c("v-btn", { on: { click: _vm.clear } }, [_vm._v("clear")]),
           _vm._v(" "),
           _c(
             "router-link",
@@ -37623,6 +37705,30 @@ var render = function() {
     ],
     1
   )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/forum/AppForum.vue?vue&type=template&id=685654d9&":
+/*!*****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/forum/AppForum.vue?vue&type=template&id=685654d9& ***!
+  \*****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("h1", [_vm._v("Hello from forum")])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -78524,7 +78630,7 @@ function () {
       var payload = this.payload(token);
 
       if (payload) {
-        return payload.iss == "http://localhost:8000/api/auth/login" ? true : false;
+        return payload.iss == "http://localhost:8000/api/auth/login" || "http://localhost:8000/api/auth/signup" ? true : false;
       }
 
       return false;
@@ -78595,6 +78701,7 @@ function () {
 
       if (_Token__WEBPACK_IMPORTED_MODULE_0__["default"].isValid(access_token)) {
         _AppStorage__WEBPACK_IMPORTED_MODULE_1__["default"].store(username, access_token);
+        window.location = '/forum';
       }
     }
   }, {
@@ -78617,6 +78724,7 @@ function () {
     key: "logout",
     value: function logout() {
       _AppStorage__WEBPACK_IMPORTED_MODULE_1__["default"].clear();
+      window.location = '/forum';
     }
   }, {
     key: "name",
@@ -78655,18 +78763,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var _components_Login_AppLogin_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Login/AppLogin.vue */ "./resources/js/components/Login/AppLogin.vue");
-/* harmony import */ var _components_Login_AppSignup_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/Login/AppSignup.vue */ "./resources/js/components/Login/AppSignup.vue");
+/* harmony import */ var _components_Login_AppLogout_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/Login/AppLogout.vue */ "./resources/js/components/Login/AppLogout.vue");
+/* harmony import */ var _components_Login_AppSignup_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/Login/AppSignup.vue */ "./resources/js/components/Login/AppSignup.vue");
+/* harmony import */ var _components_forum_AppForum_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/forum/AppForum.vue */ "./resources/js/components/forum/AppForum.vue");
 
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
+
+
 
 
 var routes = [{
   path: '/login',
   component: _components_Login_AppLogin_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
 }, {
+  path: '/logout',
+  component: _components_Login_AppLogout_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+}, {
   path: '/signup',
-  component: _components_Login_AppSignup_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+  component: _components_Login_AppSignup_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+}, {
+  path: '/forum',
+  component: _components_forum_AppForum_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
+  name: 'forum'
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   routes: routes,
@@ -78702,7 +78821,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 Vue.use(vuetify__WEBPACK_IMPORTED_MODULE_0___default.a);
 
 window.User = _Helpers_User__WEBPACK_IMPORTED_MODULE_1__["default"];
-console.log(_Helpers_User__WEBPACK_IMPORTED_MODULE_1__["default"].id());
+window.EventBus = new Vue();
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -79062,6 +79181,56 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Login/AppLogout.vue":
+/*!*****************************************************!*\
+  !*** ./resources/js/components/Login/AppLogout.vue ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _AppLogout_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AppLogout.vue?vue&type=script&lang=js& */ "./resources/js/components/Login/AppLogout.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+var render, staticRenderFns
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_1__["default"])(
+  _AppLogout_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"],
+  render,
+  staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Login/AppLogout.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Login/AppLogout.vue?vue&type=script&lang=js&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/Login/AppLogout.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AppLogout_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./AppLogout.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Login/AppLogout.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AppLogout_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/js/components/Login/AppSignup.vue":
 /*!*****************************************************!*\
   !*** ./resources/js/components/Login/AppSignup.vue ***!
@@ -79126,6 +79295,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AppSignup_vue_vue_type_template_id_252e8a38___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AppSignup_vue_vue_type_template_id_252e8a38___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/forum/AppForum.vue":
+/*!****************************************************!*\
+  !*** ./resources/js/components/forum/AppForum.vue ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _AppForum_vue_vue_type_template_id_685654d9___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AppForum.vue?vue&type=template&id=685654d9& */ "./resources/js/components/forum/AppForum.vue?vue&type=template&id=685654d9&");
+/* harmony import */ var _AppForum_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AppForum.vue?vue&type=script&lang=js& */ "./resources/js/components/forum/AppForum.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _AppForum_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AppForum_vue_vue_type_template_id_685654d9___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _AppForum_vue_vue_type_template_id_685654d9___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/forum/AppForum.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/forum/AppForum.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/components/forum/AppForum.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AppForum_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./AppForum.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/forum/AppForum.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AppForum_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/forum/AppForum.vue?vue&type=template&id=685654d9&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/components/forum/AppForum.vue?vue&type=template&id=685654d9& ***!
+  \***********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AppForum_vue_vue_type_template_id_685654d9___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./AppForum.vue?vue&type=template&id=685654d9& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/forum/AppForum.vue?vue&type=template&id=685654d9&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AppForum_vue_vue_type_template_id_685654d9___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AppForum_vue_vue_type_template_id_685654d9___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
